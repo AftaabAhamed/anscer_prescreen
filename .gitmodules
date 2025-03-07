@@ -1,0 +1,3 @@
+[submodule "src/AR100"]
+	path = src/AR100
+	url = https://github.com/anscer/AR100.git
