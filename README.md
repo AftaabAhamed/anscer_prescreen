@@ -48,3 +48,5 @@ e on the following steps:
     rosservice call /vizualise_trajectory "file_path: '/path/to/your/trajectory.csv'"
     ```
     Replace `'/path/to/your/trajectory.csv'` with the actual path to your CSV file.
+
+    ![Trajectory Visualization](trajectory_visualized.png)
