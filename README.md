@@ -14,11 +14,12 @@ These nodes facilitate the recording and visualization of robot
 1. Start the `AR 100`simulation packages
    ```sh
    roslaunch start_anscer start_anscer.launch
-   ``` 
+   ```
 2. Start the navigation packages
    ```sh
    roslaunch anscer_navigation anscer_navigation.launch map_name:="map"
    ```
+3. Add a `Marker_array` display in RViz and set the topic to `/visualization_marker`.
 
 ### Capturing the Trajectory
 
@@ -47,4 +48,4 @@ These nodes facilitate the recording and visualization of robot
     ```
     Replace trajectory with name of file to be visualised
 
-3. Add a `Marker` display in RViz and set the topic to `/visualization_marker`.
+
