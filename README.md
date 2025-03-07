@@ -102,3 +102,8 @@ These nodes facilitate the recording and visualization of robot
 
 ![Trajectory Visualization](trajectory_visualized.png)
 
+## Video Demonstration
+
+Watch the video demonstration of the trajectory visualization and capture package:
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/TQM9QLbC3i4/0.jpg)](https://www.youtube.com/watch?v=TQM9QLbC3i4)
