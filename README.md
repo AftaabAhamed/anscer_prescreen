@@ -8,45 +8,97 @@ This package contains two ROS nodes:
 These nodes facilitate the recording and visualization of robot
 
 ## Usage 
-bas
-e on the following steps:
+
+### Starting the Simulation
+
+1. Start the `AR 100`simulation packages
+   ```sh
+   roslaunch start_anscer start_anscer.launch
+   ```
+2. Start the navigation packages
+   ```sh
+   roslaunch anscer_navigation anscer_navigation.launch map_name:="map"
+   ```
+3. Add a `Marker_array` display in RViz and set the topic to `/visualization_marker`.
 
 ### Capturing the Trajectory
 
-1. Launch the ROS master:
+1. Start the `capture_trajectory_service` node:
     ```sh
-    roscore
+    rosrun traj_viz capture_service
     ```
 
-2. Start the `capture_trajectory_service` node:
+2. Call the service to start capturing the trajectory:
     ```sh
-    rosrun your_package_name capture_trajectory_service
+    rosservice call /capture_trajectory "{"filename": "trajectory" , "duration" : "30"}"
     ```
-
-3. Call the service to start capturing the trajectory:
-    ```sh
-    rosservice call /capture_trajectory "duration: 10.0"
-    ```
-    Replace `10.0` with the desired duration in seconds.
+    Replace `30` with the desired duration in seconds (NOTE: Enter a integer).
+    Change `trajectory` to desired filename
 
 ### Visualizing the Trajectory
 
 1. Start the `vizualise_trajectory_service` node:
     ```sh
-    rosrun your_package_name vizualise_trajectory_service
+    rosrun traj_viz viz_service
     ```
 
-2. Open RViz:
+2. Call the visualisation service:
     ```sh
-    rviz
+    rosservice call /visualize_trajectory "filename: 'trajectory'"
     ```
+    Replace trajectory with name of file to be visualised
+   
 
-3. Add a `Marker` display in RViz and set the topic to `/visualization_marker`.
+## Pseudocode for ROS Nodes :
 
-4. Call the service to visualize the trajectory:
-    ```sh
-    rosservice call /vizualise_trajectory "file_path: '/path/to/your/trajectory.csv'"
-    ```
-    Replace `'/path/to/your/trajectory.csv'` with the actual path to your CSV file.
+### Node 1: Capture Trajectory
 
-    ![Trajectory Visualization](trajectory_visualized.png)
+1. **Include necessary headers**
+    - ROS, standard services, geometry messages, visualization messages, custom services, TF2 listener, and standard libraries.
+
+2. **Define `captureTrajectory` service callback function**
+    - Log service call.
+    - Extract filename and duration from request.
+    - Initialize TF2 buffer and listener.
+    - Open a CSV file to save trajectory data.
+    - Loop for the specified duration:
+      - Try to get the transform between "odom" and "base_link".
+      - If successful, write the transform data to the CSV file.
+      - If failed, log a warning and retry after a delay.
+    - Close the CSV file.
+    - Log completion message.
+    - Return true.
+
+3. **Define `main` function**
+    - Initialize ROS node.
+    - Create a service server for "capture_trajectory" using `captureTrajectory` callback.
+    - Log readiness message.
+    - Spin to keep the node running.
+
+### Node 2: Visualize Trajectory
+
+1. **Include necessary headers**
+    - ROS, standard services, geometry messages, visualization messages, custom services, TF2 listener, and standard libraries.
+
+2. **Define `visualiseTrajectory` service callback function**
+    - Extract filename from request.
+    - Open the corresponding CSV file.
+    - Initialize marker ID.
+    - Loop through each line in the CSV file:
+      - Split the line by commas to extract transform data.
+      - Create a marker for each transform.
+      - Set marker properties (type, frame, ID, timestamp, namespace, pose, scale, color).
+      - Add marker to marker array.
+    - Return true.
+
+3. **Define `main` function**
+    - Initialize ROS node.
+    - Create a service server for "visualize_trajectory" using `visualiseTrajectory` callback.
+    - Create a publisher for visualization markers.
+    - Log readiness message.
+    - Loop while ROS is running:
+      - Publish marker array.
+      - Spin once to handle callbacks and services.
+
+![Trajectory Visualization](trajectory_visualized.png)
+
