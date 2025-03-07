@@ -8,11 +8,6 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>
-// #include "std_msgs/String.h"
-// Service callback function
-
-// geometry_msgs::PoseStamped pose;
-
 
 bool captureTrajectory(traj_viz::traj_req::Request &req , traj_viz::traj_req::Response &res)
 {
@@ -20,8 +15,6 @@ bool captureTrajectory(traj_viz::traj_req::Request &req , traj_viz::traj_req::Re
 
     auto filename  = req.filename;
     auto duration = req.duration;
-    // auto duration = req.duration;
-    // res.str = "saved: " + filename;
 
     tf2_ros::Buffer tfBuffer;
     tf2_ros::TransformListener tfListener(tfBuffer);
@@ -33,7 +26,6 @@ bool captureTrajectory(traj_viz::traj_req::Request &req , traj_viz::traj_req::Re
 
     std::ofstream file;
     file.open(filename+".csv");
-    // file << "x,y,z,rx,ry,rz,rw\n";
 
     while(difftime(time(NULL), now) < duration)
     {   
@@ -58,14 +50,10 @@ bool captureTrajectory(traj_viz::traj_req::Request &req , traj_viz::traj_req::Re
         }
         rate.sleep();
         
-        // file << pose.pose.position.x << "," << pose.pose.position.y << "," << pose.pose.position.z << "," << pose.pose.orientation.x << "," << pose.pose.orientation.y << "," << pose.pose.orientation.z << "\n";
     }
     file.close();
 
-
     ROS_INFO("recording complete after %d seconds", duration);
-
-    // Add your trajectory capture logic here
 
     return true;
 }
@@ -76,12 +64,9 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "capture_trajectory_service");
     ros::NodeHandle n;
 
-
     ros::ServiceServer service = n.advertiseService("capture_trajectory", captureTrajectory);
     ROS_INFO("Ready to capture trajectory.");
-
     ros::spin();
-
     return 0;
 
 }

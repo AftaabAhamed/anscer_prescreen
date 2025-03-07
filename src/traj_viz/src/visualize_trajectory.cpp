@@ -14,10 +14,14 @@
 visualization_msgs::MarkerArray marker_array;
 
 bool visualiseTrajectory(traj_viz::viz_req::Request &req , traj_viz::viz_req::Response &res)
-{   
+{  
+  
   std::string filename = req.filename;  
   std::ifstream file(filename+".csv");
   std::string line;
+
+
+  marker_array.markers.clear();
 
   int id = 0;
   while (std::getline(file, line))
