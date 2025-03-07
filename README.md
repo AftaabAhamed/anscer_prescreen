@@ -100,4 +100,5 @@ These nodes facilitate the recording and visualization of robot
       - Publish marker array.
       - Spin once to handle callbacks and services.
 
+![Trajectory Visualization](trajectory_visualized.png)
 
