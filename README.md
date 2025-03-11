@@ -32,7 +32,7 @@ These nodes facilitate the recording and visualization of robot
     ```sh
     rosservice call /capture_trajectory "{"filename": "trajectory" , "duration" : "30"}"
     ```
-    Replace `30` with the desired duration in seconds (NOTE: Enter a integer).
+    Replace `30` with the desired duration in seconds <mark>(NOTE: Enter a integer)</mark>.
     Change `trajectory` to desired filename
 
 ### Visualizing the Trajectory
