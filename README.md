@@ -44,7 +44,7 @@ These nodes facilitate the recording and visualization of robot
 
 2. Call the visualisation service:
     ```sh
-    rosservice call /visualize_trajectory "filename: 'trajectory'"
+    rosservice call /visualize_trajectory "{"filename": "trajectory"}"
     ```
     Replace trajectory with name of file to be visualised
    
